@@ -1,0 +1,1 @@
+Unity will handle the file data through the use of PlayerPrefs, which store data in a seperate file, where we will store the character's name, store status, currency, and the data for the user's available cats, both in the shelter and the streets.
