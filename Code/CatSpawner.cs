@@ -23,39 +23,39 @@ using UnityEngine;
 using System.Collections;
 
 public class CatSpawner : MonoBehaviour {
-	public static int score = 0;
-	private int spawned = 0;
-	public float xLimit = 9.0f;
-	public float yLimit = 5.0f;
+     public static int score = 0;
+     private int spawned = 0;
+     public float xLimit = 9.0f;
+     public float yLimit = 5.0f;
 
-	private float spawnTimer = 0.0f;
-	public float spawnTime = 5.0f;
-	public float spawnTimeRangeModifier = 1.5f;
+     private float spawnTimer = 0.0f;
+     public float spawnTime = 5.0f;
+     public float spawnTimeRangeModifier = 1.5f;
 
-	public Transform minigameCat = null;
-	private Transform currentCat = null;
+     public Transform minigameCat = null;
+     private Transform currentCat = null;
 
-	// Use this for initialization
-	void Start () {
-		currentCat = Instantiate(minigameCat, new Vector3(Random.Range(-xLimit, xLimit), Random.Range(-yLimit, yLimit)), Quaternion.identity) as Transform;
-		spawnTimer = Time.time;
-		spawned++;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		if (!currentCat || spawnTimer + spawnTime < Time.time)
-		{
-			if (currentCat) Destroy(currentCat.gameObject);
-			currentCat = Instantiate(minigameCat, new Vector3(Random.Range(-xLimit, xLimit), Random.Range(-yLimit, yLimit)), Quaternion.identity) as Transform;
-			spawnTimer = Time.time;
-			spawned++;
-		}
-	}
+     // Use this for initialization
+     void Start () {
+          currentCat = Instantiate(minigameCat, new Vector3(Random.Range(-xLimit, xLimit), Random.Range(-yLimit, yLimit)), Quaternion.identity) as Transform;
+          spawnTimer = Time.time;
+          spawned++;
+     }
+     
+     // Update is called once per frame
+     void Update () {
+          if (!currentCat || spawnTimer + spawnTime < Time.time)
+          {
+               if (currentCat) Destroy(currentCat.gameObject);
+               currentCat = Instantiate(minigameCat, new Vector3(Random.Range(-xLimit, xLimit), Random.Range(-yLimit, yLimit)), Quaternion.identity) as Transform;
+               spawnTimer = Time.time;
+               spawned++;
+          }
+     }
 
-	void OnGUI () {
-		GUI.Box(new Rect(0, 0, Screen.width * 0.15f, Screen.height  * 0.075f), "Score: " + score);
-		GUI.Box(new Rect(Screen.width * (0.5f - 0.075f), 0, Screen.width * 0.15f, Screen.height  * 0.11f), "TIME\n" + Mathf.FloorToInt(Time.time));
-		GUI.Box(new Rect(Screen.width * (1.0f - 0.15f), 0, Screen.width * 0.15f, Screen.height  * 0.075f), "Spawned: " + spawned);
-	}
+     void OnGUI () {
+          GUI.Box(new Rect(0, 0, Screen.width * 0.15f, Screen.height  * 0.075f), "Score: " + score);
+          GUI.Box(new Rect(Screen.width * (0.5f - 0.075f), 0, Screen.width * 0.15f, Screen.height  * 0.11f), "TIME\n" + Mathf.FloorToInt(Time.time));
+          GUI.Box(new Rect(Screen.width * (1.0f - 0.15f), 0, Screen.width * 0.15f, Screen.height  * 0.075f), "Spawned: " + spawned);
+     }
 }

@@ -1,4 +1,4 @@
-﻿/**The MIT License (MIT)
+/**The MIT License (MIT)
  *
  * Copyright (c) 2016 Almirante, Latoga, Tan
  *
@@ -16,26 +16,33 @@
 */
 
 /**
- * Author : Javi Almirante
+ * Author : Javi Almirante, Clare Tan
 */
 
 using UnityEngine;
 using System.Collections;
 
-public class MinigameCat : MonoBehaviour {
+public class MinigameCat : MonoBehaviour 
+{
+     private int numberOfClicks= Random.Range(1,10);
+     // Use this for initialization
+     void Start () {
+     
+     }
+     
+     // Update is called once per frame
+     void Update () {
+     
+     }
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+     void OnMouseDown ()
+     {
+          numberOfClicks -= 1;
+          if (numberOfClicks <= 0) {
+               Destroy(this.gameObject);
+               CatSpawner.score += 100;
+               numberOfClicks = Random.Range (1, 10);
+          }
 
-	void OnMouseDown ()	{
-		Destroy(this.gameObject);
-		CatSpawner.score += 100;
-	}
+     }
 }
