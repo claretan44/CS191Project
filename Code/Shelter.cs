@@ -1,4 +1,4 @@
-﻿/**The MIT License (MIT)
+/**The MIT License (MIT)
  *
  * Copyright (c) 2016 Almirante, Latoga, Tan
  *
@@ -16,29 +16,27 @@
 */
 
 /**
- * Author : Javi Almirante, Clare Tan
+ * Author : Arel Latoga
 */
 
 using UnityEngine;
 using System.Collections;
 
-public class MinigameCat : MonoBehaviour 
+public class Shelter : MonoBehaviour
 {
+     void Start()
+	 {
+	 }
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
-	void OnMouseDown ()
-	{
-		Destroy(this.gameObject);
-		CatSpawner.score += 100;
-        numberOfClicks = Random.Range (1, 10);
-	}
+	 void OnGUI()
+	 {
+           int catCount = PlayerPrefs.GetInt("Cat Count");
+		   for (int i = 0; i <= catCount; i++)
+		   {
+				int catName = PlayerPrefs.GetInt("catname_" + i);
+				string outCatName = catName + "";
+				Debug.Log (catName);
+		        GUI.Label(new Rect(100*i, 100, 100, 100), outCatName);
+		   }
+	 }
 }

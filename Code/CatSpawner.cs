@@ -16,13 +16,14 @@
 */
 
 /**
- * Author : Javi Almirante
+ * Author : Javi Almirante, Arel Latoga
 */
 
 using UnityEngine;
 using System.Collections;
 
-public class CatSpawner : MonoBehaviour {
+public class CatSpawner : MonoBehaviour 
+{
      public static int score = 0;
      private int spawned = 0;
      public float xLimit = 9.0f;
@@ -34,28 +35,43 @@ public class CatSpawner : MonoBehaviour {
 
      public Transform minigameCat = null;
      private Transform currentCat = null;
+     private int currID;
 
      // Use this for initialization
-     void Start () {
+     void Start () 
+     {
+          PlayerPrefs.SetInt("Cat Count", 0);
+          currID = 0;
           currentCat = Instantiate(minigameCat, new Vector3(Random.Range(-xLimit, xLimit), Random.Range(-yLimit, yLimit)), Quaternion.identity) as Transform;
+          currentCat.GetComponent<CatStats>().SetName(currID);
           spawnTimer = Time.time;
           spawned++;
      }
      
      // Update is called once per frame
-     void Update () {
+     void Update () 
+     {
           if (!currentCat || spawnTimer + spawnTime < Time.time)
           {
+                  string name = "catname_" + currID;
+                  Debug.Log (name);
+                  PlayerPrefs.SetInt(name, currID);
                if (currentCat) Destroy(currentCat.gameObject);
                currentCat = Instantiate(minigameCat, new Vector3(Random.Range(-xLimit, xLimit), Random.Range(-yLimit, yLimit)), Quaternion.identity) as Transform;
+                  currID++;
+                  PlayerPrefs.SetInt("Cat Count", currID);
+                  currentCat.GetComponent<CatStats>().SetName(currID);
                spawnTimer = Time.time;
                spawned++;
           }
      }
 
-     void OnGUI () {
+     void OnGUI ()
+     {
           GUI.Box(new Rect(0, 0, Screen.width * 0.15f, Screen.height  * 0.075f), "Score: " + score);
           GUI.Box(new Rect(Screen.width * (0.5f - 0.075f), 0, Screen.width * 0.15f, Screen.height  * 0.11f), "TIME\n" + Mathf.FloorToInt(Time.time));
           GUI.Box(new Rect(Screen.width * (1.0f - 0.15f), 0, Screen.width * 0.15f, Screen.height  * 0.075f), "Spawned: " + spawned);
+
+           if (GUI.Button(new Rect(Screen.width * (0.5f - 0.075f) + 100, Screen.height * (0.5f - 0.055f) + 100, Screen.width * 0.15f, Screen.height  * 0.11f), "shelter")) Application.LoadLevel(2) ;
      }
 }
