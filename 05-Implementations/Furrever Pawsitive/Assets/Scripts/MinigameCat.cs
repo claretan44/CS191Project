@@ -39,6 +39,6 @@ public class MinigameCat : MonoBehaviour
 	{
 		Destroy(this.gameObject);
 		CatSpawner.score += 100;
-        numberOfClicks = Random.Range (1, 10);
+ //       numberOfClicks = Random.Range (1, 10);
 	}
 }

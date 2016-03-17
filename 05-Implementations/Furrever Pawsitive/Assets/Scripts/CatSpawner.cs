@@ -72,6 +72,6 @@ public class CatSpawner : MonoBehaviour
           GUI.Box(new Rect(Screen.width * (0.5f - 0.075f), 0, Screen.width * 0.15f, Screen.height  * 0.11f), "TIME\n" + Mathf.FloorToInt(Time.time));
           GUI.Box(new Rect(Screen.width * (1.0f - 0.15f), 0, Screen.width * 0.15f, Screen.height  * 0.075f), "Spawned: " + spawned);
 
-           if (GUI.Button(new Rect(Screen.width * (0.5f - 0.075f) + 100, Screen.height * (0.5f - 0.055f) + 100, Screen.width * 0.15f, Screen.height  * 0.11f), "shelter")) Application.LoadLevel(2) ;
+//           if (GUI.Button(new Rect(Screen.width * (0.5f - 0.075f) + 100, Screen.height * (0.5f - 0.055f) + 100, Screen.width * 0.15f, Screen.height  * 0.11f), "shelter")) Application.LoadLevel(2) ;
      }
 }
