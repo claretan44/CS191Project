@@ -24,19 +24,28 @@ using System.Collections;
 
 public class Shelter : MonoBehaviour
 {
+	 public GameObject catPrefab;
+
      void Start()
 	 {
+	      int catCount = PlayerPrefs.GetInt("Cat Count");
+		  for (int i = 0; i < catCount; i++)
+		  {
+		       int catName = PlayerPrefs.GetInt("catname_" + i);
+			   GameObject cat;
+			   cat = Instantiate(catPrefab, new Vector3(Random.Range(-9.0f, 9.0f), Random.Range(-5.0f, 5.0f)), Quaternion.identity) as GameObject;
+		  }
 	 }
 
 	 void OnGUI()
 	 {
            int catCount = PlayerPrefs.GetInt("Cat Count");
-		   for (int i = 0; i <= catCount; i++)
+		   for (int i = 0; i < catCount; i++)
 		   {
 				int catName = PlayerPrefs.GetInt("catname_" + i);
 				string outCatName = catName + "";
 				Debug.Log (catName);
-		        GUI.Label(new Rect(100*i, 100, 100, 100), outCatName);
+		        //GUI.Label(new Rect(100*i, 100, 100, 100), outCatName);
 		   }
 	 }
 }

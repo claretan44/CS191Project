@@ -53,14 +53,14 @@ public class CatSpawner : MonoBehaviour
      {
           if (!currentCat || spawnTimer + spawnTime < Time.time)
           {
-                  string name = "catname_" + currID;
-                  Debug.Log (name);
-                  PlayerPrefs.SetInt(name, currID);
+               string name = "catname_" + currID;
+               Debug.Log (name);
+               PlayerPrefs.SetInt(name, currID);
                if (currentCat) Destroy(currentCat.gameObject);
                currentCat = Instantiate(minigameCat, new Vector3(Random.Range(-xLimit, xLimit), Random.Range(-yLimit, yLimit)), Quaternion.identity) as Transform;
-                  currID++;
-                  PlayerPrefs.SetInt("Cat Count", currID);
-                  currentCat.GetComponent<CatStats>().SetName(currID);
+               currID++;
+               PlayerPrefs.SetInt("Cat Count", currID);
+               currentCat.GetComponent<CatStats>().SetName(currID);
                spawnTimer = Time.time;
                spawned++;
           }
