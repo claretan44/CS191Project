@@ -22,13 +22,50 @@
 using UnityEngine;
 using System.Collections;
 
-public class Button : MonoBehaviour 
+public class ToolButton : MonoBehaviour 
 {
-	public string command = "";
+	public bool isActive = false;
+	public Transform [] otherButtons;
+	public string tool;
+	// Use this for initialization
+	void Start () 
+	{
+		if (isActive) SetActive(false);
+		else SetActive(true);	
+	}
 
 	void OnMouseDown()
 	{
-		Debug.Log("Clicked " + command + "!");
-		if (LevelManager.instance) LevelManager.instance.GetCommand(command);
+		Press();
 	}
+
+	void Press()
+	{
+		if (isActive)
+		{
+			SetActive(false);
+			ShelterPlayer.instance.Equip("None");
+		}
+		else SetActive(true);
+	}
+
+	public void SetActive(bool yes)
+	{
+		if (yes)
+		{
+			foreach (Transform t in otherButtons)
+			{
+				t.GetComponent<ToolButton>().SetActive(false);
+				GetComponent<SpriteRenderer>().color = Color.white;
+				ShelterPlayer.instance.Equip(tool);
+			}
+		}
+		else
+		{
+			isActive = false;
+			GetComponent<SpriteRenderer>().color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
+		}
+	}
+
+
 }

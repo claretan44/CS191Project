@@ -22,13 +22,51 @@
 using UnityEngine;
 using System.Collections;
 
-public class Button : MonoBehaviour 
+public class ShelterPlayer : MonoBehaviour 
 {
-	public string command = "";
+	public string equipped = "None";
 
-	void OnMouseDown()
+	private static ShelterPlayer _instance = null;
+
+	public static ShelterPlayer instance 
 	{
-		Debug.Log("Clicked " + command + "!");
-		if (LevelManager.instance) LevelManager.instance.GetCommand(command);
+		get { return _instance; }
+	}
+
+	// Use this for initialization
+	void Start () 
+	{
+		if (_instance)
+			Destroy(gameObject);
+		else
+			_instance = this;	
+	}
+	
+	// Update is called once per frame
+	void Update () 
+	{
+	
+	}
+
+	public void Equip(string item)
+	{
+		equipped = item;
+	}
+
+	public void GetCommand (string command)
+	{
+		switch (command)
+		{
+			case "Shelter":
+			Application.LoadLevel("Shelter");
+			break;
+
+			case "Streets":
+			Application.LoadLevel("Streets");
+			break;
+
+			default:
+			break;
+		}
 	}
 }

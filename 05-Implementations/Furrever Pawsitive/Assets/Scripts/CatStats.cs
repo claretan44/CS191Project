@@ -71,6 +71,10 @@ public class CatStats : MonoBehaviour
 	 void Feed (float amount)
 	 {
 	 	hunger += amount;
+
+	 	if (hunger <= 0.85) friendship += 2;
+	 	else friendship -= 5;
+
 	 	if (hunger >= 100) hunger = 100;
 	 }
 
@@ -79,9 +83,21 @@ public class CatStats : MonoBehaviour
 	      id = _id;
 	 }
 
-	 void OnMouseDown ()
+	void OnMouseDown ()
 	{
-		Feed(10);
+		switch (ShelterPlayer.instance.equipped)
+		{
+			case "Food":
+			Feed(10);
+			break;
+
+			case "Adopt":
+			Destroy(this.gameObject);
+			break;
+
+			case "Medicine":
+			break;
+		}
 	}
 
 }
