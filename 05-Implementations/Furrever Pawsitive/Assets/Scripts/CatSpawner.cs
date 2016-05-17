@@ -24,8 +24,8 @@ using System.Collections;
 
 public class CatSpawner : MonoBehaviour 
 {
-     public static int score = 0;
-     private int spawned = 0;
+     public static int score;
+     private int spawned;
      public float xLimit = 9.0f;
      public float yLimit = 5.0f;
 
@@ -40,38 +40,57 @@ public class CatSpawner : MonoBehaviour
      // Use this for initialization
      void Start () 
      {
-          PlayerPrefs.SetInt("Cat Count", 0);
-          currID = 0;
-          currentCat = Instantiate(minigameCat, new Vector3(Random.Range(-xLimit, xLimit), Random.Range(-yLimit, yLimit)), Quaternion.identity) as Transform;
-          currentCat.GetComponent<CatStats>().SetName(currID);
-          spawnTimer = Time.time;
-          spawned++;
+//          PlayerPrefs.SetInt("Cat Count", dataSavingThing.Instance.catCount);
+          currID = dataSavingThing.Instance.GetNextCatID();
+          score = dataSavingThing.Instance.score;
+          spawned = dataSavingThing.Instance.spawned;          
+          SpawnCat();
      }
      
      // Update is called once per frame
      void Update () 
      {
-          if (!currentCat || spawnTimer + spawnTime < Time.time)
+          if (!currentCat && spawnTimer + spawnTime < Time.time)
           {
                string name = "catname_" + currID;
                Debug.Log (name);
-               PlayerPrefs.SetInt(name, currID);
+//              PlayerPrefs.SetInt(name, currID);
+               currID = dataSavingThing.Instance.GetNextCatID();;
                if (currentCat) Destroy(currentCat.gameObject);
-               currentCat = Instantiate(minigameCat, new Vector3(Random.Range(-xLimit, xLimit), Random.Range(-yLimit, yLimit)), Quaternion.identity) as Transform;
-               currID++;
-               PlayerPrefs.SetInt("Cat Count", currID);
-               currentCat.GetComponent<CatStats>().SetName(currID);
-               spawnTimer = Time.time;
-               spawned++;
+               SpawnCat();
+          }
+          else if (spawnTimer + spawnTime < Time.time)
+          {
+            // Teleport the current cat.
+            currentCat.position = new Vector3(Random.Range(-xLimit, xLimit), Random.Range(-1, -4));
+            spawnTimer = Time.time;
           }
      }
 
      void OnGUI ()
      {
-          GUI.Box(new Rect(0, 0, Screen.width * 0.15f, Screen.height  * 0.075f), "Score: " + score);
-          GUI.Box(new Rect(Screen.width * (0.5f - 0.075f), 0, Screen.width * 0.15f, Screen.height  * 0.11f), "TIME\n" + Mathf.FloorToInt(Time.time));
-          GUI.Box(new Rect(Screen.width * (1.0f - 0.15f), 0, Screen.width * 0.15f, Screen.height  * 0.075f), "Spawned: " + spawned);
-
-//           if (GUI.Button(new Rect(Screen.width * (0.5f - 0.075f) + 100, Screen.height * (0.5f - 0.055f) + 100, Screen.width * 0.15f, Screen.height  * 0.11f), "shelter")) Application.LoadLevel(2) ;
+        //  GUI.Box(new Rect(0, 0, Screen.width * 0.15f, Screen.height  * 0.075f), "Score: " + score);
+        //  GUI.Box(new Rect(Screen.width * (0.5f - 0.075f), 0, Screen.width * 0.15f, Screen.height  * 0.11f), "TIME\n" + Mathf.FloorToInt(Time.time));
+        //  GUI.Box(new Rect(Screen.width * (1.0f - 0.15f), 0, Screen.width * 0.15f, Screen.height  * 0.075f), "Spawned: " + spawned);
      }
+
+     void SpawnCat()
+     {
+          if (PlayerPrefs.GetInt("Cat Count", 0) < 6)
+          {
+            currentCat = Instantiate(minigameCat, new Vector3(Random.Range(-xLimit, xLimit), Random.Range(-1, -4)), Quaternion.identity) as Transform;
+            currentCat.GetComponent<CatStats>().SetName(currID);
+            currentCat.GetComponent<CatStats>().color = new Color(Random.Range(0.25f, 1.0f), Random.Range(0.25f, 1.0f), Random.Range(0.25f, 1.0f), 1.0f);
+            spawnTimer = Time.time;
+           spawned++;
+         }
+     }
+
+    public void SaveData()
+    {
+        dataSavingThing.Instance.catCount = PlayerPrefs.GetInt("Cat Count", 0);
+        dataSavingThing.Instance.currID = currID;
+        dataSavingThing.Instance.score = score;
+        dataSavingThing.Instance.spawned = spawned;
+    }
 }

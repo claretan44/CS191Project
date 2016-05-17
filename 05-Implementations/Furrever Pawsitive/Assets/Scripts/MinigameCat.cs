@@ -37,8 +37,10 @@ public class MinigameCat : MonoBehaviour
 
 	void OnMouseDown ()
 	{
+		PlayerPrefs.SetInt("Cat Count", PlayerPrefs.GetInt("Cat Count", 0) + 1);		
+		GetComponent<CatStats>().SaveCat();
 		Destroy(this.gameObject);
-		CatSpawner.score += 100;
+		dataSavingThing.Instance.score += 100;
  //       numberOfClicks = Random.Range (1, 10);
 	}
 }

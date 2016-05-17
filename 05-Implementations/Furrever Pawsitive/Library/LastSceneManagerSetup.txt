@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/Shelter.unity
+- path: Assets/Scenes/Streets.unity
   isLoaded: 1
   isActive: 1

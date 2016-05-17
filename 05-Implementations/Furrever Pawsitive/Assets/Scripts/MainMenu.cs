@@ -36,14 +36,14 @@ public class MainMenu : MonoBehaviour {
 	void Update () {
 	
 	}
-
+/*
 	void OnGUI ()
 	{
 		if (GUI.Button(new Rect(Screen.width * (0.5f - 0.075f), Screen.height * (0.5f - 0.055f), Screen.width * 0.15f, Screen.height  * 0.11f), "PLAY")) Application.LoadLevel(1) ;
 		if (GUI.Button(new Rect(Screen.width * (0.5f - 0.075f) + 100, Screen.height * (0.5f - 0.055f) + 100, Screen.width * 0.15f, Screen.height  * 0.11f), "shelter")) Application.LoadLevel(2) ;
         if (GUI.Button(new Rect(Screen.width * (0.5f - 0.075f), Screen.height * (0.5f - 0.055f) + Screen.height  * 0.11f, Screen.width * 0.15f, Screen.height  * 0.11f), "EXIT")) Application.Quit() ;
 	}
-
+*/
 	void KillCats()
 	{
 	     PlayerPrefs.DeleteAll();

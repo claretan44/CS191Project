@@ -18,7 +18,6 @@
 /**
  * Author : Javi Almirante, Clare Tan
 */
-
 using UnityEngine;
 using System.Collections;
 
@@ -37,7 +36,7 @@ public class LevelManager : MonoBehaviour
 		if (_instance)
 			Destroy(gameObject);
 		else
-			_instance = this;	
+			_instance = this;
 	}
 	
 	// Update is called once per frame
@@ -50,15 +49,17 @@ public class LevelManager : MonoBehaviour
 		switch (command)
 		{
 			case "Shelter":
-			Application.LoadLevel("Shelter");
-			break;
+//                GameObject sp = GameObject.Find("Spawner");
+//                sp.GetComponent<CatSpawner>().SaveData();
+                Application.LoadLevel("Shelter");
+                break;
 
 			case "Streets":
-			Application.LoadLevel("Streets");
-			break;
+			    Application.LoadLevel("Streets");
+			    break;
 
 			default:
-			break;
+			    break;
 		}
 	}
 }

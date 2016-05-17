@@ -16,6 +16,6 @@ public class CatUI : MonoBehaviour
 	{
 		hungerLevel.localScale = new Vector3(stats.GetHunger() / 100.00f, 1);
 		hungerLevel.localPosition = new Vector3((stats.GetHunger() / 100.00f - 1) * 0.5f, 0);
-
+		
 	}
 }

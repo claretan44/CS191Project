@@ -22,10 +22,17 @@
 using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(BoxCollider2D))]
+
 public class CatStats : MonoBehaviour
 {
-     private int id;
-     
+    private Vector3 screenPnt;
+    private Vector3 offset;
+    private int id;
+    public Color color;
+    public SpriteRenderer head;
+    public SpriteRenderer body;
+
      public string name;
      public float hunger;
      public float health;
@@ -44,6 +51,8 @@ public class CatStats : MonoBehaviour
      void Start()
      {
      	timeSinceLastHunger = Time.time;
+     	if (head) head.color = color;
+     	if (body) body.color = color;
 	 }
 
 	 void Update()
@@ -65,7 +74,12 @@ public class CatStats : MonoBehaviour
 	 void GetHungry (float inc)
 	 {
 	 	hunger -= inc;
-	 	if (hunger <= 0) Destroy(this.gameObject);
+	 	if (hunger <= 0)
+	 	{   
+	 		PlayerPrefs.SetInt("Cat " + id + " Exists", 0);
+	 		PlayerPrefs.SetInt("Cat Count", PlayerPrefs.GetInt("Cat Count", 0) - 1);
+	 		Destroy(this.gameObject);
+	 	}
 	 }
 
 	 void Feed (float amount)
@@ -85,19 +99,55 @@ public class CatStats : MonoBehaviour
 
 	void OnMouseDown ()
 	{
-		switch (ShelterPlayer.instance.equipped)
+		if (Application.loadedLevelName == "Shelter")
 		{
-			case "Food":
-			Feed(10);
-			break;
+	        screenPnt = Camera.main.WorldToScreenPoint(gameObject.transform.position);
 
-			case "Adopt":
-			Destroy(this.gameObject);
-			break;
+	        offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPnt.z));
+	        switch (ShelterPlayer.instance.equipped)
+			{
+				case "Food":
+				Feed(10);
+				break;
 
-			case "Medicine":
-			break;
+				case "Adopt":
+					PlayerPrefs.SetInt("Cat " + id + " Exists", 0);
+					PlayerPrefs.SetInt("Cat Count", PlayerPrefs.GetInt("Cat Count", 0) - 1);
+				Destroy(this.gameObject);
+				break;
+
+				case "Medicine":
+				break;
+
+				default:
+				break;
+			}
 		}
 	}
+
+    void OnMouseDrag()
+    {
+        Vector3 curScreenPnt = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPnt.z);
+        Vector3 curPos = Camera.main.ScreenToWorldPoint(curScreenPnt) + offset;
+        transform.position = curPos;
+    }
+
+    public void SaveCat ()
+    {
+    	dataSavingThing.Instance.SaveCat(id, color.r, color.g, color.b, hunger, health, friendship);
+    }
+
+    public void LoadCat (int _id)
+    {
+    	id = _id;
+        name = PlayerPrefs.GetString("Cat " + id + " Name", "Name");
+        color = new Color (PlayerPrefs.GetFloat("Cat " + id + " ColorR", 1.0f), PlayerPrefs.GetFloat("Cat " + id + " ColorG", 1.0f), PlayerPrefs.GetFloat("Cat " + id + " ColorB", 1.0f));
+        hunger = PlayerPrefs.GetFloat("Cat " + id + " Hunger", 0);
+        health = PlayerPrefs.GetFloat("Cat " + id + " Health", 0);
+        friendship = PlayerPrefs.GetFloat("Cat " + id + " Friendship", 0);
+
+        if (head) head.color = color;
+     	if (body) body.color = color;
+    }
 
 }
